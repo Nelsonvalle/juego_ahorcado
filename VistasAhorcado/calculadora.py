@@ -4,6 +4,7 @@ raiz= Tk()
 frameCalculadora = Frame(raiz)
 frameCalculadora.pack()
 operacion = ""
+reset_pantalla=False
 resultado=0
 #-------------------Se crea la pantalla----------------------
 
@@ -15,9 +16,10 @@ pantalla.config(background="black",fg="#0ae75d",justify="right")
 #---------------Pulsaciones teclado----------------------------
 def numeroPulsado(num):
     global operacion
-    if (operacion != ""):
+    global reset_pantalla
+    if reset_pantalla != False:
         numeroPantalla.set(num)
-        operacion=""
+        reset_pantalla = False
     else:
         numeroPantalla.set(numeroPantalla.get()+num)
 
@@ -25,14 +27,185 @@ def numeroPulsado(num):
 def suma(num):
     global operacion
     global resultado
-    resultado+=int(num)
+    global reset_pantalla
+    resultado=resultado + int(num)
     operacion= "suma"
+    reset_pantalla = True
     numeroPantalla.set(resultado)
-#------------funcion el resultado para utilizar el boton =----------
-def elResultado():
+
+
+# ---------------funcion resta------------------------------
+num1 = 0
+
+contador_resta = 0
+
+
+def resta(num):
+    global operacion
+
     global resultado
-    numeroPantalla.set(resultado+int(numeroPantalla.get()))
-    resultado=0
+
+    global num1
+
+    global contador_resta
+
+    global reset_pantalla
+
+    if contador_resta == 0:
+
+        num1 = int(num)
+
+        resultado = num1
+
+    else:
+
+        if contador_resta == 1:
+
+            resultado = num1 - int(num)
+
+        else:
+
+            resultado = int(resultado) - int(num)
+
+        numeroPantalla.set(resultado)
+
+        resultado = numeroPantalla.get()
+
+    contador_resta = contador_resta + 1
+
+    operacion = "resta"
+
+    reset_pantalla = True
+
+
+# -------------funcion multiplicacion---------------------
+contador_multi = 0
+
+
+def multiplica(num):
+    global operacion
+
+    global resultado
+
+    global num1
+
+    global contador_multi
+
+    global reset_pantalla
+
+    if contador_multi == 0:
+
+        num1 = int(num)
+
+        resultado = num1
+
+    else:
+
+        if contador_multi == 1:
+
+            resultado = num1 * int(num)
+
+        else:
+
+            resultado = int(resultado) * int(num)
+
+        numeroPantalla.set(resultado)
+
+        resultado = numeroPantalla.get()
+
+    contador_multi = contador_multi + 1
+
+    operacion = "multiplicacion"
+
+    reset_pantalla = True
+
+
+# -----------------funcion division---------------------
+
+contador_divi = 0
+
+
+def divide(num):
+    global operacion
+
+    global resultado
+
+    global num1
+
+    global contador_divi
+
+    global reset_pantalla
+
+    if contador_divi == 0:
+
+        num1 = float(num)
+
+        resultado = num1
+
+    else:
+
+        if contador_divi == 1:
+
+            resultado = num1 / float(num)
+
+        else:
+
+            resultado = float(resultado) / float(num)
+
+        numeroPantalla.set(resultado)
+
+        resultado = numeroPantalla.get()
+
+    contador_divi = contador_divi + 1
+
+    operacion = "division"
+
+    reset_pantalla = True
+
+#------------funcion el resultado para utilizar el boton =----------
+def el_resultado():
+    global resultado
+
+    global operacion
+
+    global contador_resta
+
+    global contador_multi
+
+    global contador_divi
+
+    if operacion == "suma":
+
+        numeroPantalla.set(resultado + int(numeroPantalla.get()))
+
+        resultado = 0
+
+    elif operacion == "resta":
+
+        numeroPantalla.set(int(resultado) - int(numeroPantalla.get()))
+
+        resultado = 0
+
+        contador_resta = 0
+
+    elif operacion == "multiplicacion":
+
+        numeroPantalla.set(int(resultado) * int(numeroPantalla.get()))
+
+        resultado = 0
+
+        contador_multi = 0
+
+    elif operacion == "division":
+
+        numeroPantalla.set(int(resultado) / int(numeroPantalla.get()))
+
+        resultado = 0
+
+        contador_divi = 0
+
+
+
 
 #------------------Se crea la cuarta linea de botones de la calculadora----------------
 botonBorrar = Button(frameCalculadora, text="CE",width=4)
@@ -48,7 +221,7 @@ boton8 = Button(frameCalculadora, text="8",width=3,command=lambda:numeroPulsado(
 boton8.grid(row=3,column=2)
 boton9 = Button(frameCalculadora, text="9",width=3,command=lambda:numeroPulsado("9"))
 boton9.grid(row=3,column=3)
-botondiv = Button(frameCalculadora, text="/",width=3)
+botondiv = Button(frameCalculadora, text="/",width=3,command=lambda:divide(numeroPantalla.get()))
 botondiv.grid(row=3, column=4)
 
 #------------------Se crea la segunda linea de botones de la calculadora----------------
@@ -58,7 +231,7 @@ boton5 = Button(frameCalculadora, text="5",width=3,command=lambda:numeroPulsado(
 boton5.grid(row=4,column=2)
 boton6 = Button(frameCalculadora, text="6",width=3,command=lambda:numeroPulsado("6"))
 boton6.grid(row=4,column=3)
-botonmult = Button(frameCalculadora, text="X",width=3)
+botonmult = Button(frameCalculadora, text="X",width=3,command=lambda:multiplica(numeroPantalla.get()))
 botonmult.grid(row=4, column=4)
 
 #------------------Se crea la tercera linea de botones de la calculadora----------------
@@ -68,7 +241,7 @@ boton2 = Button(frameCalculadora, text="2",width=3,command=lambda:numeroPulsado(
 boton2.grid(row=5,column=2)
 boton3 = Button(frameCalculadora, text="3",width=3,command=lambda:numeroPulsado("3"))
 boton3.grid(row=5,column=3)
-botonrestar = Button(frameCalculadora, text="-",width=3)
+botonrestar = Button(frameCalculadora, text="-",width=3, command= lambda: resta(numeroPantalla.get()))
 botonrestar.grid(row=5, column=4)
 
 #------------------Se crea la cuarta linea de botones de la calculadora----------------
@@ -76,7 +249,7 @@ botoncero = Button(frameCalculadora, text="0",width=3,command=lambda:numeroPulsa
 botoncero.grid(row=6, column=1)
 botoncoma = Button(frameCalculadora, text=",",width=3,command=lambda:numeroPulsado("."))
 botoncoma.grid(row=6,column=2)
-botonigual = Button(frameCalculadora, text="=",width=3,command=lambda:elResultado())
+botonigual = Button(frameCalculadora, text="=",width=3,command=lambda:el_resultado())
 botonigual.grid(row=6,column=3)
 botonsuma = Button(frameCalculadora, text="+",width=3,command=lambda:suma(numeroPantalla.get()))
 botonsuma.grid(row=6, column=4)
