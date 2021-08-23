@@ -204,11 +204,12 @@ def el_resultado():
 
         contador_divi = 0
 
-
+def borrar():
+    numeroPantalla.set("")
 
 
 #------------------Se crea la cuarta linea de botones de la calculadora----------------
-botonBorrar = Button(frameCalculadora, text="CE",width=4)
+botonBorrar = Button(frameCalculadora, text="CE",width=4,command=lambda:borrar())
 botonBorrar.grid(row=2, column=2,sticky= "e")
 botonBorrarUltimo = Button(frameCalculadora, text="C",width=4)
 botonBorrarUltimo.grid(row=2,column=3,sticky= "e")
