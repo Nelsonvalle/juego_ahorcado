@@ -3,7 +3,8 @@ from tkinter import *
 raiz= Tk()
 frameCalculadora = Frame(raiz)
 frameCalculadora.pack()
-
+operacion = ""
+resultado=0
 #-------------------Se crea la pantalla----------------------
 
 numeroPantalla= StringVar()
@@ -13,7 +14,25 @@ pantalla.config(background="black",fg="#0ae75d",justify="right")
 
 #---------------Pulsaciones teclado----------------------------
 def numeroPulsado(num):
-    numeroPantalla.set(numeroPantalla.get()+num)
+    global operacion
+    if (operacion != ""):
+        numeroPantalla.set(num)
+        operacion=""
+    else:
+        numeroPantalla.set(numeroPantalla.get()+num)
+
+#-------funcion suma---------------------------------
+def suma(num):
+    global operacion
+    global resultado
+    resultado+=int(num)
+    operacion= "suma"
+    numeroPantalla.set(resultado)
+#------------funcion el resultado para utilizar el boton =----------
+def elResultado():
+    global resultado
+    numeroPantalla.set(resultado+int(numeroPantalla.get()))
+    resultado=0
 
 #------------------Se crea la cuarta linea de botones de la calculadora----------------
 botonBorrar = Button(frameCalculadora, text="CE",width=4)
@@ -57,9 +76,9 @@ botoncero = Button(frameCalculadora, text="0",width=3,command=lambda:numeroPulsa
 botoncero.grid(row=6, column=1)
 botoncoma = Button(frameCalculadora, text=",",width=3,command=lambda:numeroPulsado("."))
 botoncoma.grid(row=6,column=2)
-botonigual = Button(frameCalculadora, text="=",width=3)
+botonigual = Button(frameCalculadora, text="=",width=3,command=lambda:elResultado())
 botonigual.grid(row=6,column=3)
-botonsuma = Button(frameCalculadora, text="+",width=3)
+botonsuma = Button(frameCalculadora, text="+",width=3,command=lambda:suma(numeroPantalla.get()))
 botonsuma.grid(row=6, column=4)
 
 
