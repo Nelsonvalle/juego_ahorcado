@@ -6,7 +6,7 @@ raiz.resizable(1,1)
 #raiz.geometry("600x300")
 raiz.config(bg= "green")  #bg = background
 # Aqui se crea el Frame
-framePrincipal= Frame()
+framePrincipal= Frame(raiz)
 framePrincipal.pack(side= "left", anchor= "s") #para ubicar el frame en alguna posicion (derecha,izquierda)
 framePrincipal.config(width= "600", height= "350")
 framePrincipal.config(bg= "red")
